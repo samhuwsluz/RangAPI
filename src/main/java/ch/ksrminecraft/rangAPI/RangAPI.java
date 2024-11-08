@@ -6,12 +6,12 @@ public final class RangAPI extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        //TODO DBSession Startup
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        //TODO DBSession Teardown
     }
 }
