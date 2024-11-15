@@ -9,18 +9,18 @@ public class PointsAPI {
     public PointsAPI(Connection conn) {
         connection = conn;
     }
-    private String getSQL(String command) {
+    public int SQLgetInt(String command) {
         try (PreparedStatement ps = connection.prepareStatement(command)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getString("name");
+                return rs.getInt("name");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return 0;
     }
-    private void SQLUpdate(String command){
+    public void SQLUpdate(String command){
         try (PreparedStatement ps = connection.prepareStatement(command)) {
             ps.executeUpdate();
         } catch (SQLException e) {
