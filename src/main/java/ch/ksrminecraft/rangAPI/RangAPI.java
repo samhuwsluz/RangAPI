@@ -2,6 +2,7 @@ package ch.ksrminecraft.rangAPI;
 
 import ch.ksrminecraft.rangAPI.DB.Database;
 import ch.ksrminecraft.rangAPI.DB.PointsAPI;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +15,10 @@ public final class RangAPI extends JavaPlugin {
     PointsAPI pointsAPI;
     @Override
     public void onEnable() {
+
+    FileConfiguration config = getConfiguration();
+    createDefaultConfig(this, config);
+
         dbConnector.connect("jdbc:mysql://ksrminecraft.ch/KSRPointsDBTest", "points_test_user", "snC7oFdB1w");
         connection = dbConnector.getConnection();
         pointsAPI = new PointsAPI(connection);
@@ -32,4 +37,22 @@ public final class RangAPI extends JavaPlugin {
         pointsAPI.SQLUpdate("Update points set points = " + points + " where UUID = ' " + p.getUniqueId() + "'");
     }
     //public void AddPoints();
+
+    public FileConfiguration getConfiguration() {
+        FileConfiguration config = this.getConfig();
+        return config;
+    }
+    private void createDefaultConfig(JavaPlugin plugin, FileConfiguration config) {
+        config.addDefault("database-url", "PathPlaceholder");
+        config.addDefault("database-user", "UserPlaceholder");
+        config.addDefault("database-password", "PasswordPlaceholder");
+
+        config.options().copyDefaults(true);
+
+        plugin.saveConfig();
+    }
+
+    private String getDatabaseURL() {return this.getConfig().getString("database-url");}
+    private String getDatabaseUser() {return this.getConfig().getString("database-user");}
+    private String getDatabasePassword() {return this.getConfig().getString("database-password");}
 }
