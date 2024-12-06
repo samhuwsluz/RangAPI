@@ -38,7 +38,7 @@ public final class RangAPI extends JavaPlugin {
     }
     //public void AddPoints();
 
-    public FileConfiguration getConfiguration() {
+    private FileConfiguration getConfiguration() {
         FileConfiguration config = this.getConfig();
         return config;
     }
