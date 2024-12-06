@@ -27,7 +27,7 @@ public final class RangAPI extends JavaPlugin {
     public int GetPoints(Player p){
         int points = pointsAPI.SQLgetInt("Select points from points where UUID = ' " + p.getUniqueId() + "'");
         return points;
-    }
+        }
     public void SetPoints(Player p, int points){
         pointsAPI.SQLUpdate("Update points set points = " + points + " where UUID = ' " + p.getUniqueId() + "'");
     }
