@@ -1,10 +1,16 @@
 # Rangsystem
 
+## 0. Kurzbeschrieb des Projekts
+
+### 0.1 Proxy-Plugin
+
+Wir machen ein Minecraft Plugin, welches als Dependency für andere Plugins fungiert. Dieses Plugin stellt direkt eine Verbindung mit der Datenbank her, auf welcher Punkte geschrieben und davon gelesen werden durch ebendieses Plugin. Andere Plugins können dann die Methoden dieses Plugins benutzen, um selber Punkte zu schreiben.
+
 ## 1. Ränge
 
 ### 1.1 Rangliste
 
-Die KSRMinecraft Ränge werden in der darauffolgenden Liste aufgeführt und sind final.  Zu beachten ist insbesondere, dass der Spieler bei Spielstart sich bereits in Besitz des Einsteigerrangs, der Liste entsprechend dem ersten Element, befindet.
+Die KSRMinecraft Ränge werden in der darauffolgenden Liste aufgeführt und sind final. Zu beachten ist insbesondere, dass der Spieler bei Spielstart sich bereits in Besitz des Einsteigerrangs, der Liste entsprechend dem ersten Element, befindet.
 
 1. Einsteigerrang
 
@@ -92,15 +98,15 @@ Das Proxy-Plugin implementiert die Punktevergabe für die Spielzeit für das ges
 
 #### 4.1.3 SMP-Plugin
 
-Das Plugin auf dem SMP soll die  Punkte für diverse Aktionen vergeben.
+Das Plugin auf dem SMP soll die Punkte für diverse Aktionen vergeben.
 
 ## 5. Zeitplan
 
 ### 5.1 Pendenzen
 
-- [ ] Projekte erstellen
+- [x] Projekte erstellen
 
-- [ ] Datenbank erstellen
+- [x] Datenbank erstellen
 
 - [ ] API-Plugin MVP
   
@@ -108,9 +114,13 @@ Das Plugin auf dem SMP soll die  Punkte für diverse Aktionen vergeben.
   
   - [ ] Kann installiert werden von anderen Plugins
   
-  - [ ] Punkte schreiben auf die Datenbank
+  - [x] Punkte schreiben auf die Datenbank
   
-  - [ ] Punkte lesen von der Datenbank
+  - [x] Punkte lesen von der Datenbank
+  
+  - [x] Config wird erstellt
+  
+  - [x] Config kann gelesen werden
 
 - [ ] Proxy Plugin MVP
   
@@ -169,3 +179,9 @@ Das Plugin auf dem SMP soll die  Punkte für diverse Aktionen vergeben.
 | 21.04.25 | Buffer                                                         | JS  |                                                                    |
 | 25.04.25 | Deadline (ganzes Projekt)                                      | JS  | Feierabendbier und dieses Mal richtig!                             |
 |          |                                                                |     |                                                                    |
+
+### 6. Stand der Dinge
+
+#### 6.1 Stand der Dinge (02.12.24)
+
+Datenbank-Verbindung kann aufgebaut werden, Methoden für Punkte lesen und schreiben implementiert. Config-Datei implementiert. Test-Plugin jetzt in Arbeit.
