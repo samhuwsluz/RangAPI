@@ -46,3 +46,17 @@ public int getPoints(Player p);
 ```java
 public void setPoints(Player p, int points);
 ```
+
+# Configuration (Plugin)
+## config.yml
+The Config File has 3 Fields for connecting to the Points Database: 
+
+```yml
+database-url: # URL to the Database ex: mysql://ksrminecraft.ch/[Databasename]
+database-user: # Database User
+database-password: # Password for the database
+```
+
+## DB-Schema
+The Database should have a *Table* called *points*
+This Table must have the Fields: *UUID:text, points:int(11), time:timestamp*
