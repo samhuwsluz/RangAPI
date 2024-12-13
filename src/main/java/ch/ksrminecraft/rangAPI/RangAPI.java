@@ -28,11 +28,11 @@ public final class RangAPI extends JavaPlugin {
         //TODO DBSession Teardown
     }
 
-    public int GetPoints(Player p){
+    public int getPoints(Player p){
         int points = pointsAPI.SQLgetInt("Select points from points where UUID = ' " + p.getUniqueId() + "'");
         return points;
         }
-    public void SetPoints(Player p, int points){
+    public void setPoints(Player p, int points){
         pointsAPI.SQLUpdate("Update points set points = " + points + " where UUID = ' " + p.getUniqueId() + "'");
     }
     //public void AddPoints();
