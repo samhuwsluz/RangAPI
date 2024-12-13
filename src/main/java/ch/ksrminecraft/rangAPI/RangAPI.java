@@ -35,7 +35,11 @@ public final class RangAPI extends JavaPlugin {
     public void setPoints(Player p, int points){
         pointsAPI.SQLUpdate("Update points set points = " + points + " where UUID = ' " + p.getUniqueId() + "'");
     }
-    //public void AddPoints();
+    public void addPoints(Player p, int pointsDelta){
+        int points = pointsAPI.SQLgetInt("Select points from points where UUID = ' " + p.getUniqueId() + "'");
+        int newPoints = points + pointsDelta;
+        pointsAPI.SQLUpdate("Update points set points = " + newPoints + " where UUID = ' " + p.getUniqueId() + "'");
+    }
 
     private FileConfiguration getConfiguration() {
         FileConfiguration config = this.getConfig();
