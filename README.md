@@ -58,5 +58,5 @@ database-password: # Password for the database
 ```
 
 ## DB-Schema
-The Database should have a *Table* called *points*
-This Table must have the Fields: *UUID:text, points:int(11), time:timestamp*
+The Database should have a **Table** called *points*
+This Table must have the Fields: **UUID:text, points:int(11), time:timestamp**
