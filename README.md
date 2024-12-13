@@ -18,7 +18,7 @@ Add the dependency
 	</dependency>
 ```
 
-# Usage
+# API Usage
 ## Importing the API
 ```java
 import  ch.ksrminecraft.rangAPI.RangAPI;
@@ -32,4 +32,17 @@ softdepend: ['RangAPI']
 ## Loading Plugin instance
 ```java
  RangAPI api = (RangAPI) this.getServer().getPluginManager().getPlugin("RangAPI");
+```
+
+
+# API Reference
+
+## Get Points from User
+```java
+public int getPoints(Player p);
+```
+
+## Set Points from User
+```java
+public void setPoints(Player p, int points);
 ```
