@@ -14,7 +14,7 @@ Add the dependency
 <dependency>
   <groupId>com.github.Samhuwsluz</groupId>
   <artifactId>RangAPI</artifactId>
-  <version>Tag</version>
+  <version>alpha-4</version>
 </dependency>
 ```
 
