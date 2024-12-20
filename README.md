@@ -1,4 +1,4 @@
-# Instalation (Maven):
+# Installation (Maven):
 ## Step1:
 Add the JitPack repository to your build file:
 ```xml
