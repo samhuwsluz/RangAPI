@@ -1,4 +1,4 @@
-# Instalation (Maven):
+# Installation (Maven):
 ## Step1:
 Add the JitPack repository to your build file:
 ```xml
@@ -12,10 +12,10 @@ Add the JitPack repository to your build file:
 Add the dependency
 ```xml
 <dependency>
-	    <groupId>com.github.Samhuwsluz</groupId>
-	    <artifactId>RangAPI</artifactId>
-	    <version>Tag</version>
-	</dependency>
+  <groupId>com.github.Samhuwsluz</groupId>
+  <artifactId>RangAPI</artifactId>
+  <version>alpha-4</version>
+</dependency>
 ```
 
 # API Usage
