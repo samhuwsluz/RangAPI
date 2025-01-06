@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 
-public final class RangAPI extends JavaPlugin {
+public final class RangAPI extends JavaPlugin implements DBAPI {
     Database dbConnector = new Database();
     Connection connection;
     PointsAPI pointsAPI;

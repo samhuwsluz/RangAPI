@@ -1,4 +1,4 @@
 name: RangAPI
-version: '1.0-SNAPSHOT'
+version: '1.0'
 main: ch.ksrminecraft.rangAPI.RangAPI
 api-version: '1.21'
