@@ -8,10 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 
-public final class RangAPI extends JavaPlugin implements DBAPI {
+public final class RangAPI extends JavaPlugin {
     Database dbConnector = new Database();
     Connection connection;
     PointsAPI pointsAPI;
+    DBAPI dbAPI;
     @Override
     public void onEnable() {
 
@@ -21,24 +22,12 @@ public final class RangAPI extends JavaPlugin implements DBAPI {
         dbConnector.connect("jdbc:mysql://ksrminecraft.ch/KSRPointsDBTest", "points_test_user", "snC7oFdB1w");
         connection = dbConnector.getConnection();
         pointsAPI = new PointsAPI(connection);
+        dbAPI = new DBAPI(pointsAPI);
     }
 
     @Override
     public void onDisable() {
         //TODO DBSession Teardown
-    }
-
-    public int getPoints(Player p){
-        int points = pointsAPI.SQLgetInt("Select points from points where UUID = ' " + p.getUniqueId() + "'");
-        return points;
-        }
-    public void setPoints(Player p, int points){
-        pointsAPI.SQLUpdate("Update points set points = " + points + " where UUID = ' " + p.getUniqueId() + "'");
-    }
-    public void addPoints(Player p, int pointsDelta){
-        int points = pointsAPI.SQLgetInt("Select points from points where UUID = ' " + p.getUniqueId() + "'");
-        int newPoints = points + pointsDelta;
-        pointsAPI.SQLUpdate("Update points set points = " + newPoints + " where UUID = ' " + p.getUniqueId() + "'");
     }
 
     private FileConfiguration getConfiguration() {
