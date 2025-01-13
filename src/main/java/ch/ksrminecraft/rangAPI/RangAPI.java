@@ -12,7 +12,7 @@ public final class RangAPI extends JavaPlugin {
     Database dbConnector = new Database();
     Connection connection;
     PointsAPI pointsAPI;
-    DBAPI dbAPI;
+   public DBAPI dbAPI;
     @Override
     public void onEnable() {
 
