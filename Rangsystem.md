@@ -130,13 +130,13 @@ Das Plugin auf dem SMP soll die Punkte für diverse Aktionen vergeben.
   
   - [ ] Läuft auf dem Proxy selber (auf allen Servern)
 
-- [ ] Proxy-Time Plugin
+- [x] Proxy-Time Plugin
   
-  - [ ] Vergibt Punkte für Spielzeit (Alle Server)
+  - [x] Vergibt Punkte für Spielzeit (Alle Server)
   
   - [ ] API als Dependency
   
-  - [ ] Läuft auf dem Proxy selber (Auf allen Servern)
+  - [x] Läuft auf dem Proxy selber (Auf allen Servern)
   
   - [ ] Adminfunktionen (Alle Server, In Zukunft)
 
