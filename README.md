@@ -1,6 +1,55 @@
-# Installation (Maven):
-## Step1:
-Add the JitPack repository to your build file:
+# RangAPI
+
+**RangAPI** is a lightweight Bukkit plugin designed to manage and store player rank points in a MySQL database. It provides a simple API to get, set, and add points for players, and can be integrated easily into other Minecraft plugins.
+
+## ✅ Features
+
+- Store and retrieve player points via MySQL
+- Simple API access to read and write points
+- Configuration via `config.yml`
+- Easy integration into existing Bukkit plugins
+
+---
+
+## 🛠 Installation
+
+### 1. Plugin Setup
+
+Download the plugin `.jar` and place it into your server's `plugins/` folder. On the next server start, the `config.yml` will be generated automatically.
+
+### 2. Configuration
+
+Edit the generated `config.yml`:
+
+```yaml
+database-url: "jdbc:mysql://your-host/database"
+database-user: "your-username"
+database-password: "your-password"
+```
+
+Make sure your MySQL server is accessible and that the database and user exist.
+
+### 3. Database Schema
+
+Your database must contain a table named `points` with the following structure:
+
+```sql
+CREATE TABLE `points` (
+  `UUID` VARCHAR(36) NOT NULL,
+  `points` INT(11) NOT NULL DEFAULT 0,
+  `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`UUID`)
+);
+```
+
+---
+
+## 📦 Maven Integration (for developers)
+
+If you want to use RangAPI in your plugin, add it as a dependency via JitPack.
+
+### 1. Add the JitPack repository
+
 ```xml
 <repository>
   <id>jitpack.io</id>
@@ -8,55 +57,76 @@ Add the JitPack repository to your build file:
 </repository>
 ```
 
-## Step2:
-Add the dependency
+### 2. Add the dependency
+
 ```xml
 <dependency>
   <groupId>com.github.Samhuwsluz</groupId>
   <artifactId>RangAPI</artifactId>
-  <version>alpha-4</version>
+  <version>alpha-5</version>
 </dependency>
 ```
 
-# API Usage
-## Importing the API
-```java
-import  ch.ksrminecraft.rangAPI.RangAPI;
-```
+---
 
-## Add RangAPI as Bukkit dependency (plugin.yml)
+## 🔌 Bukkit Plugin Integration
+
+In your plugin's `plugin.yml`, add:
+
 ```yaml
-softdepend: ['RangAPI']
+softdepend: [RangAPI]
 ```
 
-## Loading Plugin instance
+---
+
+## 📚 API Usage
+
+### Getting access to the API
+
 ```java
- RangAPI api = (RangAPI) this.getServer().getPluginManager().getPlugin("RangAPI");
+RangAPI api = (RangAPI) Bukkit.getServer().getPluginManager().getPlugin("RangAPI");
 ```
 
+Then access the point methods through:
 
-# API Reference
-
-## Get Points from User
 ```java
-public int getPoints(Player p);
+api.dbAPI.getPoints(player);
+api.dbAPI.setPoints(player, int);
+api.dbAPI.addPoints(player, int);
 ```
 
-## Set Points from User
+### Example:
+
 ```java
-public void setPoints(Player p, int points);
+int currentPoints = api.dbAPI.getPoints(player);
+api.dbAPI.addPoints(player, 10);
+api.dbAPI.setPoints(player, 50);
 ```
 
-# Configuration (Plugin)
-## config.yml
-The Config File has 3 Fields for connecting to the Points Database: 
+---
 
-```yml
-database-url: # URL to the Database ex: mysql://ksrminecraft.ch/[Databasename]
-database-user: # Database User
-database-password: # Password for the database
-```
+## 🧱 Project Structure
 
-## DB-Schema
-The Database should have a **Table** called **points**
-This Table must have the Fields: **UUID:text, points:int(11), time:timestamp**
+- `RangAPI.java` – Main plugin class, handles database connection
+- `DBAPI.java` – Provides a simple interface for point operations
+- `PointsAPI.java` – Handles raw SQL operations
+- `Database.java` – Manages MySQL connection
+
+---
+
+## ❗Important Notes
+
+- **Do not hardcode your database credentials in the plugin.** Use the `config.yml` file.
+- All SQL statements are currently built via string concatenation – be aware of SQL injection risks if you plan to expand the system.
+
+---
+
+## 📖 License
+
+This plugin is distributed under the MIT License.
+
+---
+
+## 🤝 Contributions
+
+Feel free to fork, improve, and submit pull requests! Feedback and suggestions are always welcome.
