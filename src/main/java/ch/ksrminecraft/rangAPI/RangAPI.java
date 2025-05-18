@@ -2,6 +2,7 @@ package ch.ksrminecraft.rangAPI;
 
 import ch.ksrminecraft.rangAPI.DB.Database;
 import ch.ksrminecraft.rangAPI.DB.PointsAPI;
+import ch.ksrminecraft.rangAPI.local.LocalPointsStore;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,103 +10,66 @@ import java.sql.Connection;
 
 /**
  * Main class of the RangAPI plugin.
- * Responsible for initializing database access and loading configuration.
+ * Initializes either MySQL-based or local file-based point storage.
  */
 public final class RangAPI extends JavaPlugin {
 
-    // Helper class for managing database connections
     private final Database dbConnector = new Database();
-
-    // Active JDBC connection to the database
     private Connection connection;
 
-    // API for low-level SQL access to the points table
+    // Either pointsAPI (for online mode) or localStore (for local mode) will be used
     private PointsAPI pointsAPI;
+    private LocalPointsStore localStore;
 
-    // Public API for other plugins to access player point data
+    // Public interface for accessing points
     public DBAPI dbAPI;
 
-    /**
-     * Called when the plugin is enabled (server startup or /reload).
-     * Initializes config and database connection, with test mode support.
-     */
     @Override
     public void onEnable() {
-        // Load and create config with default values if not present
         FileConfiguration config = this.getConfig();
         createDefaultConfig(config);
 
-        // Check whether to use test or production database
-        boolean testMode = config.getBoolean("testmode", false);
-        String url, user, password;
+        String mode = config.getString("mode", "local").toLowerCase();
 
-        if (testMode) {
-            getLogger().warning("TEST MODE ENABLED: Using local test database.");
-            url = "jdbc:mysql://localhost:3306/testpoints";
-            user = "testuser";
-            password = "testpassword";
+        if (mode.equals("online")) {
+            getLogger().info("ONLINE MODE: Connecting to MySQL database...");
+            String url = config.getString("database.online.url");
+            String user = config.getString("database.online.user");
+            String password = config.getString("database.online.password");
+
+            dbConnector.connect(url, user, password);
+            connection = dbConnector.getConnection();
+
+            if (connection != null) {
+                pointsAPI = new PointsAPI(connection);
+                pointsAPI.createTableIfNotExists();
+                dbAPI = new DBAPI(pointsAPI); // Use SQL-based implementation
+                getLogger().info("Connected to MySQL successfully.");
+            } else {
+                getLogger().severe("Failed to connect to MySQL database.");
+            }
+
         } else {
-            getLogger().info("Production mode: Connecting to configured database.");
-            url = getDatabaseURL();
-            user = getDatabaseUser();
-            password = getDatabasePassword();
-        }
-
-        // Connect to the database
-        dbConnector.connect(url, user, password);
-        connection = dbConnector.getConnection();
-
-        if (connection != null) {
-            // Initialize internal APIs
-            pointsAPI = new PointsAPI(connection);
-
-            // Ensure the 'points' table exists
-            pointsAPI.createTableIfNotExists();
-
-            // Provide public access API
-            dbAPI = new DBAPI(pointsAPI);
-
-            getLogger().info("Database connection established successfully.");
-        } else {
-            getLogger().severe("Failed to establish database connection. Plugin features will be limited.");
+            getLogger().warning("LOCAL MODE: Using file-based point storage.");
+            localStore = new LocalPointsStore(this);
+            dbAPI = new DBAPI(localStore); // Use local file-based implementation
         }
     }
 
-    /**
-     * Called when the plugin is disabled (server shutdown or /reload).
-     * Closes the database connection cleanly using Database#disconnect().
-     */
     @Override
     public void onDisable() {
         dbConnector.disconnect();
         getLogger().info("Database connection closed.");
     }
 
-    /**
-     * Creates default config entries if they don't exist.
-     *
-     * @param config The configuration object to populate
-     */
     private void createDefaultConfig(FileConfiguration config) {
-        config.addDefault("database-url", "jdbc:mysql://prodhost:3306/proddb");
-        config.addDefault("database-user", "produser");
-        config.addDefault("database-password", "prodpassword");
-        config.addDefault("testmode", true); // default to true for safe dev environment
+        config.addDefault("mode", "local");
+
+        config.addDefault("database.online.url", "jdbc:mysql://your-online-host:3306/proddb");
+        config.addDefault("database.online.user", "produser");
+        config.addDefault("database.online.password", "prodpassword");
 
         config.options().copyDefaults(true);
         saveConfig();
-    }
-
-    // Helpers to access config values
-    private String getDatabaseURL() {
-        return getConfig().getString("database-url");
-    }
-
-    private String getDatabaseUser() {
-        return getConfig().getString("database-user");
-    }
-
-    private String getDatabasePassword() {
-        return getConfig().getString("database-password");
     }
 }
